@@ -93,7 +93,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-const whitelist = ['http://localhost:3000', 'http://localhost:8080']
+const whitelist = ['http://localhost:3000', 'http://localhost:5000']
 const corsOptions = {
   origin: function (origin, callback) {
     console.log("** Origin of request " + origin)
