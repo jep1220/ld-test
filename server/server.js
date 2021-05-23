@@ -83,3 +83,26 @@ app.listen(PORT, (err) => {
   if (err) console.log(err.message);
   console.log(`Server listening in ${process.env.NODE_ENV} on port ${PORT}`);
 });
+
+
+// For deploying to Heroku
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client/buil')));
+  app.get('*', function(req, res){
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  });
+}
+
+const whitelist = ['http://localhost:3000', 'http://localhost:8080']
+const corsOptions = {
+  origin: function (origin, callback) {
+    console.log("** Origin of request " + origin)
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      console.log("Origin acceptable")
+      callback(null, true)
+    } else {
+      console.log("Origin rejected")
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
